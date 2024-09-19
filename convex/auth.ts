@@ -13,6 +13,7 @@ const CustomPassword = Password<DataModel>({
     };
   },
 });
+
 export const { auth, signIn, signOut, store } = convexAuth({
   providers: [GitHub, Google, CustomPassword],
 });
