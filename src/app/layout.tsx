@@ -4,7 +4,8 @@ import { ConvexClientProvider } from "@/components/convex-client-provider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { CreateWorkspaceModal } from "@/features/workspaces/components/create-workspace-modal";
+
+import { Modals } from "@/components/modals";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +35,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <ConvexClientProvider>
-            <CreateWorkspaceModal /> {children}
+            <Modals /> {children}
           </ConvexClientProvider>
         </body>
       </html>
