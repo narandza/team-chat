@@ -1,5 +1,6 @@
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { JotaiProvider } from "@/components/jotai-provider";
 
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -36,8 +37,10 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           <ConvexClientProvider>
-            <Toaster />
-            <Modals /> {children}
+            <JotaiProvider>
+              <Toaster />
+              <Modals /> {children}
+            </JotaiProvider>
           </ConvexClientProvider>
         </body>
       </html>
