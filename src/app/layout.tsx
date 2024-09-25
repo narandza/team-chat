@@ -38,7 +38,7 @@ export default function RootLayout({
         >
           <ConvexClientProvider>
             <JotaiProvider>
-              <Toaster />
+              <Toaster className="bg-gray-50" />
               <Modals /> {children}
             </JotaiProvider>
           </ConvexClientProvider>
