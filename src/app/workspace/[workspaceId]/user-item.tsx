@@ -8,7 +8,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 
 const userItemVariants = cva(
-  "flex items-center gap-1.5 justify-start font-normal h-7 px-6 text-sm overflow-hidden",
+  "flex items-center gap-1.5 justify-start font-normal h-7 px-5 text-sm overflow-hidden",
   {
     variants: {
       variant: {
