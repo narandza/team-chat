@@ -1,5 +1,5 @@
 import { useConfirm } from "@/hooks/use-confirm";
-import { useNewJoinCOde } from "@/features/workspaces/api/use-new-join-code";
+import { useNewJoinCode } from "@/features/workspaces/api/use-new-join-code";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 
 import { CopyIcon, RefreshCcw } from "lucide-react";
@@ -34,7 +34,7 @@ export const InviteModal = ({
     "This will deactivate the current invite code and generate a new one."
   );
 
-  const { mutate, isPending } = useNewJoinCOde();
+  const { mutate, isPending } = useNewJoinCode();
 
   const handleNewCode = async () => {
     const ok = await confirm();

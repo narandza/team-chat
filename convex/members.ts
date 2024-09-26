@@ -33,7 +33,7 @@ export const get = query({
     const members = [];
 
     for (const member of data) {
-      const user = await populateUser(ctx, userId);
+      const user = await populateUser(ctx, member.userId);
 
       if (user) {
         members.push({

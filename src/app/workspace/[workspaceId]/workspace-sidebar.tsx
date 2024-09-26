@@ -79,14 +79,17 @@ export const WorkspaceSidebar = () => {
         hint="New direct message"
         onNew={() => {}}
       >
-        {members?.map((item) => (
-          <UserItem
-            label={item.user.name}
-            image={item.user.image}
-            id={item._id}
-            key={item._id}
-          />
-        ))}
+        {members?.map((item) => {
+          console.log(item);
+          return (
+            <UserItem
+              label={item.user.name}
+              image={item.user.image}
+              id={item._id}
+              key={item._id}
+            />
+          );
+        })}
       </WorkspaceSection>
     </div>
   );
