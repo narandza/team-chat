@@ -2,7 +2,7 @@ import { v } from "convex/values";
 
 import { QueryCtx, mutation, query } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
-import { Doc, Id } from "./_generated/dataModel";
+import { Id } from "./_generated/dataModel";
 import { paginationOptsValidator } from "convex/server";
 
 const populateThread = async (ctx: QueryCtx, messageId: Id<"messages">) => {
@@ -70,6 +70,58 @@ const getMember = async (
     .unique();
 };
 
+export const remove = mutation({
+  args: {
+    id: v.id("messages"),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) throw new Error("Unauthorized");
+
+    const message = await ctx.db.get(args.id);
+
+    if (!message) throw new Error("Message not found");
+
+    const member = await getMember(ctx, message.workspaceId, userId);
+
+    if (!member || member._id !== message.memberId)
+      throw new Error("Unauthorized");
+
+    await ctx.db.delete(args.id);
+
+    return args.id;
+  },
+});
+
+export const update = mutation({
+  args: {
+    id: v.id("messages"),
+    body: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+
+    if (!userId) throw new Error("Unauthorized");
+
+    const message = await ctx.db.get(args.id);
+
+    if (!message) throw new Error("Message not found");
+
+    const member = await getMember(ctx, message.workspaceId, userId);
+
+    if (!member || member._id !== message.memberId)
+      throw new Error("Unauthorized");
+
+    await ctx.db.patch(args.id, {
+      body: args.body,
+      updatedAt: Date.now(),
+    });
+
+    return args.id;
+  },
+});
+
 export const get = query({
   args: {
     channelId: v.optional(v.id("channels")),
@@ -127,38 +179,38 @@ export const get = query({
               };
             });
 
-            const dedupeReactions = reactionsWithCounts.reduce(
-              (acc, reaction) => {
-                const existingReaction = acc.find(
-                  (r) => r.value === reaction.value
-                );
+            // const dedupeReactions = reactionsWithCounts.reduce(
+            //   (acc, reaction) => {
+            //     const existingReaction = acc.find(
+            //       (r) => r.value === reaction.value
+            //     );
 
-                if (existingReaction) {
-                  existingReaction.memberIds = Array.from(
-                    new Set([...existingReaction.memberIds, reaction.memberId])
-                  );
-                } else {
-                  acc.push({ ...reaction, memberIds: [reaction.memberId] });
-                }
+            //     if (existingReaction) {
+            //       existingReaction.memberIds = Array.from(
+            //         new Set([...existingReaction.memberIds, reaction.memberId])
+            //       );
+            //     } else {
+            //       acc.push({ ...reaction, memberIds: [reaction.memberId] });
+            //     }
 
-                return acc;
-              },
-              [] as (Doc<"reactions"> & {
-                count: number;
-                memberIds: Id<"members">;
-              })[]
-            );
+            //     return acc;
+            //   },
+            //   [] as (Doc<"reactions"> & {
+            //     count: number;
+            //     memberIds: Id<"members">;
+            //   })[]
+            // );
 
-            const reactionsWithoutMemberIdProperty = dedupeReactions.map(
-              ({ memberId, ...rest }) => rest
-            );
+            // const reactionsWithoutMemberIdProperty = dedupeReactions.map(
+            //   ({ memberId, ...rest }) => rest
+            // );
 
             return {
               ...message,
               image,
               member,
               user,
-              reactions: reactionsWithoutMemberIdProperty,
+              reactions: reactionsWithCounts,
               threadCount: thread.count,
               threadImage: thread.image,
               threadTimestamp: thread.timestamp,
