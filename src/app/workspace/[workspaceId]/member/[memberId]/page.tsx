@@ -10,6 +10,7 @@ import { useCreateOrGetConversation } from "@/features/conversations/api/use-cre
 
 import { useMemberId } from "@/hooks/use-member-id";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+import { Conversation } from "./conversation";
 
 const MemberIdPage = () => {
   const memberId = useMemberId();
@@ -42,6 +43,7 @@ const MemberIdPage = () => {
       </div>
     );
   }
+
   if (!conversationId) {
     return (
       <div
@@ -56,7 +58,7 @@ const MemberIdPage = () => {
     );
   }
 
-  return <div className="">{conversationId}</div>;
+  return <Conversation id={conversationId} />;
 };
 
 export default MemberIdPage;
