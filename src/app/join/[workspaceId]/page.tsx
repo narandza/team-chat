@@ -37,7 +37,7 @@ const JoinPage = () => {
         joinCode: value,
       },
       {
-        onSuccess: (id) => {
+        onSuccess: () => {
           router.replace(`/workspace/${workspaceId}`);
           toast.success("Workspace joined.");
         },
