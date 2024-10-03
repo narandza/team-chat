@@ -18,8 +18,8 @@ export const ConversationHero = ({
           <AvatarImage src={image} />
           <AvatarFallback>{avatarFallback}</AvatarFallback>
         </Avatar>
+        <p className="text-2xl font-bold flex ">{name}</p>
       </div>
-      <p className="text-2xl font-bold flex ">{name}</p>
       <p className="font-normal text-slate-800 mb-4">
         This conversation is just between you and <strong>{name}</strong>
       </p>
