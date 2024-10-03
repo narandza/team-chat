@@ -22,7 +22,6 @@ const MemberIdPage = () => {
   const { mutate, isPending } = useCreateOrGetConversation();
 
   useEffect(() => {
-    console.log(memberId);
     mutate(
       { memberId, workspaceId },
       {

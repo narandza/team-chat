@@ -16,8 +16,10 @@ import { SidebarItem } from "./sidebar-item";
 import { WorkspaceSection } from "./workspace-section";
 import { UserItem } from "./user-item";
 import { useChannelId } from "@/hooks/use-channel-id";
+import { useMemberId } from "@/hooks/use-member-id";
 
 export const WorkspaceSidebar = () => {
+  const memberId = useMemberId();
   const workspaceId = useWorkspaceId();
   const channelId = useChannelId();
 
@@ -36,7 +38,7 @@ export const WorkspaceSidebar = () => {
     workspaceId,
   });
 
-  if (workspaceLoading || memberLoading) {
+  if (workspaceLoading || memberLoading || channelsLoading || memberIsLoading) {
     return (
       <div className="flex flex-col bg-[#5e2c5f] h-full items-center justify-center">
         <Loader className="size-5 animate-spin text-white" />
@@ -88,6 +90,7 @@ export const WorkspaceSidebar = () => {
             image={item.user.image}
             id={item._id}
             key={item._id}
+            variant={memberId === item._id ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>
