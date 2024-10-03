@@ -3,5 +3,5 @@ import { Id } from "../../convex/_generated/dataModel";
 
 export const useMemberId = () => {
   const params = useParams();
-  return params.channelId as Id<"members">;
+  return params.memberId as Id<"members">;
 };
