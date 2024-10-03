@@ -25,6 +25,7 @@ interface MessageProps {
   authorImage: string;
   authorName: string;
   isAuthor: boolean;
+  memberId: Id<"members">;
   reactions: Array<
     Omit<Doc<"reactions">, "memberId"> & {
       count: number;
@@ -56,11 +57,11 @@ const formatFullTime = (date: Date) => {
 };
 
 export const Message = ({
-  key,
   id,
   authorImage,
   authorName = "Member",
   isAuthor,
+  memberId,
   reactions,
   body,
   image,
@@ -75,7 +76,7 @@ export const Message = ({
   threadTimestamp,
   threadName,
 }: MessageProps) => {
-  const { parentMessageId, onOpenMessage, onClose } = usePanel();
+  const { parentMessageId, onOpenMessage, onOpenProfile, onClose } = usePanel();
 
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete message?",
@@ -89,7 +90,8 @@ export const Message = ({
   const { mutate: toggleReaction, isPending: isTogglingReaction } =
     useToggleReaction();
 
-  const isPending = isUpdatingMessage || isRemovingMessage;
+  const isPending =
+    isUpdatingMessage || isRemovingMessage || isTogglingReaction;
 
   const handleReaction = (value: string) => {
     toggleReaction(
@@ -217,7 +219,7 @@ export const Message = ({
         )}
       >
         <div className="flex items-start gap-2">
-          <button>
+          <button onClick={() => onOpenProfile(memberId)}>
             <Avatar>
               <AvatarImage src={authorImage} />
               <AvatarFallback>{avatarFallback}</AvatarFallback>
@@ -237,7 +239,7 @@ export const Message = ({
             <div className="flex flex-col w-full overflow-hidden">
               <div className="text-sm">
                 <button
-                  onClick={() => {}}
+                  onClick={() => onOpenProfile(memberId)}
                   className="font-bold text-primary hover:underline"
                 >
                   {authorName}
