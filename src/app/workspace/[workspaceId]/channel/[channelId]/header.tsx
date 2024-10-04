@@ -15,7 +15,7 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import { useUpdateChannel } from "@/features/channels/api/use-update-channel";
 import { useChannelId } from "@/hooks/use-channel-id";
 import { toast } from "sonner";
-import { useRemoveChannel } from "@/features/channels/api/use-remove-channe";
+import { useRemoveChannel } from "@/features/channels/api/use-remove-channel";
 import { useConfirm } from "@/hooks/use-confirm";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
