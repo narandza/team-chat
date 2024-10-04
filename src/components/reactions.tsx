@@ -10,7 +10,7 @@ interface ReactionsProps {
   data: Array<
     Omit<Doc<"reactions">, "memberId"> & {
       count: number;
-      memberIds: Id<"members">;
+      memberIds: Id<"members">[];
     }
   >;
   onChange: (value: string) => void;
