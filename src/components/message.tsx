@@ -26,12 +26,14 @@ interface MessageProps {
   authorName: string;
   isAuthor: boolean;
   memberId: Id<"members">;
-  reactions: Array<
-    Omit<Doc<"reactions">, "memberId"> & {
-      count: number;
-      memberIds: Id<"members">;
-    }
-  >;
+  reactions:
+    | Array<
+        Omit<Doc<"reactions">, "memberId"> & {
+          count: number;
+          memberIds: Id<"members">;
+        }
+      >
+    | [];
   body: Doc<"messages">["body"];
   image: string | null | undefined;
   updatedAt: Doc<"messages">["updatedAt"];

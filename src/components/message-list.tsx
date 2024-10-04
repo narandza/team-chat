@@ -91,20 +91,20 @@ export const MessageList = ({
 
             return (
               <Message
-                key={message?._id}
-                id={message?._id}
-                memberId={message?.memberId}
-                authorImage={message?.user.image}
-                authorName={message?.user.name}
+                key={message?._id || ("" as Id<"messages">)}
+                id={message?._id || ("" as Id<"messages">)}
+                memberId={message?.memberId || ("" as Id<"members">)}
+                authorImage={message?.user.image || ""}
+                authorName={message?.user.name || ""}
                 isAuthor={message?.memberId === currentMember?._id}
-                reactions={message?.reactions}
-                body={message?.body}
+                reactions={message?.reactions || []}
+                body={message?.body || ""}
                 image={message?.image}
                 updatedAt={message?.updatedAt}
-                createdAt={message?._creationTime}
+                createdAt={message?._creationTime || 0}
                 isEditing={editingId === message?._id}
                 setEditingId={setEditingId}
-                isCompact={isCompact}
+                isCompact={isCompact || false}
                 hideThreadButton={variant === "thread"}
                 threadCount={message?.threadCount}
                 threadImage={message?.threadImage}
