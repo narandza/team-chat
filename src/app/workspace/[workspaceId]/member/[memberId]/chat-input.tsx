@@ -83,6 +83,7 @@ export const ChatInput = ({ placeholder, conversationId }: ChatInputProps) => {
   return (
     <div className="px-5 w-full">
       <Editor
+        defaultValue={[]}
         key={editorKey}
         placeholder={placeholder}
         onSubmit={handleSubmit}
