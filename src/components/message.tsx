@@ -269,7 +269,6 @@ export const Message = ({
         </div>
         {!isEditing && (
           <Toolbar
-            name={threadName}
             isAuthor={isAuthor}
             isPending={isPending}
             handleEdit={() => setEditingId(id)}

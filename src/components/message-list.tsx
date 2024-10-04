@@ -51,15 +51,16 @@ export const MessageList = ({
 
   const groupedMessages = data?.reduce(
     (groups, message) => {
-      const date = new Date(message?._creationTime);
-      const dateKey = format(date, "yyyy-MM-dd");
-
-      if (!groups[dateKey]) {
-        groups[dateKey] = [];
+      const date = message?._creationTime
+        ? new Date(message._creationTime)
+        : null;
+      if (date) {
+        const dateKey = format(date, "yyyy-MM-dd");
+        if (!groups[dateKey]) {
+          groups[dateKey] = [];
+        }
+        groups[dateKey].unshift(message);
       }
-
-      groups[dateKey].unshift(message);
-
       return groups;
     },
     {} as Record<string, typeof data>
@@ -81,6 +82,8 @@ export const MessageList = ({
             const isCompact =
               prevMessage &&
               prevMessage.user?._id === message?.user._id &&
+              message?._creationTime &&
+              prevMessage?._creationTime &&
               differenceInMinutes(
                 new Date(message._creationTime),
                 new Date(prevMessage._creationTime)
@@ -89,9 +92,9 @@ export const MessageList = ({
             return (
               <Message
                 key={message?._id}
-                id={message._id}
-                memberId={message.memberId}
-                authorImage={message.user.image}
+                id={message?._id}
+                memberId={message?.memberId}
+                authorImage={message?.user.image}
                 authorName={message?.user.name}
                 isAuthor={message?.memberId === currentMember?._id}
                 reactions={message?.reactions}

@@ -25,7 +25,7 @@ const ChannelIdPage = () => {
     );
   }
 
-  if (!channel) {
+  if (!channel || Array.isArray(channel)) {
     return (
       <div className="h-full flex-1 flex items-center justify-center flex-col gap-y-2">
         <TriangleAlert className="size-6 text-muted-foreground" />
