@@ -115,15 +115,16 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
 
   const groupedMessages = results?.reduce(
     (groups, message) => {
-      const date = new Date(message._creationTime);
-      const dateKey = format(date, "yyyy-MM-dd");
-
-      if (!groups[dateKey]) {
-        groups[dateKey] = [];
+      const date = message?._creationTime
+        ? new Date(message._creationTime)
+        : null;
+      if (date) {
+        const dateKey = format(date, "yyyy-MM-dd");
+        if (!groups[dateKey]) {
+          groups[dateKey] = [];
+        }
+        groups[dateKey].unshift(message);
       }
-
-      groups[dateKey].unshift(message);
-
       return groups;
     },
     {} as Record<string, typeof results>
@@ -192,25 +193,25 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
 
               return (
                 <Message
-                  key={message?._id}
-                  id={message._id}
-                  memberId={message.memberId}
-                  authorImage={message.user.image}
-                  authorName={message?.user.name}
+                  key={message?._id || ("" as Id<"messages">)}
+                  id={message?._id || ("" as Id<"messages">)}
+                  memberId={message?.memberId || ("" as Id<"members">)}
+                  authorImage={message?.user.image || ""}
+                  authorName={message?.user.name || ""}
                   isAuthor={message?.memberId === currentMember?._id}
-                  reactions={message?.reactions}
-                  body={message?.body}
+                  reactions={message?.reactions || []}
+                  body={message?.body || ""}
                   image={message?.image}
                   updatedAt={message?.updatedAt}
-                  createdAt={message?._creationTime}
+                  createdAt={message?._creationTime || 0}
                   isEditing={editingId === message?._id}
                   setEditingId={setEditingId}
-                  isCompact={isCompact}
+                  isCompact={isCompact || false}
                   hideThreadButton
                   threadCount={message?.threadCount}
                   threadImage={message?.threadImage}
-                  threadName={message?.threadName}
                   threadTimestamp={message?.threadTimestamp}
+                  threadName={message?.threadName}
                 />
               );
             })}
@@ -243,10 +244,12 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
           </div>
         )}
         <Message
+          isCompact
+          key={message?._id || ("" as Id<"messages">)}
           hideThreadButton
           memberId={message.memberId}
-          authorImage={message.user.image}
-          authorName={message.user.name}
+          authorImage={message.user.image || ""}
+          authorName={message.user.name || ""}
           isAuthor={message.memberId === currentMember?._id}
           body={message.body}
           image={message.image}
@@ -260,6 +263,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
       </div>
       <div className="px-4 ">
         <Editor
+          defaultValue={[]}
           key={editorKey}
           onSubmit={handleSubmit}
           disabled={isPending}
