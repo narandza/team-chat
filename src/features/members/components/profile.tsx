@@ -113,7 +113,12 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
     );
   };
 
-  if (memberLoading || currentMemberLoading) {
+  if (
+    memberLoading ||
+    currentMemberLoading ||
+    updateMemberPending ||
+    removeMemberPending
+  ) {
     return (
       <div className="h-full flex flex-col">
         <div className="flex justify-between items-center px-4 h-[49px] border-b">
